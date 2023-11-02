@@ -1,0 +1,28 @@
+import time
+import requests
+from time import sleep
+import re, requests, csv
+from bs4 import BeautifulSoup as bs
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+import pandas as pd
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+keys=Keys()
+
+url='https://brand.naver.com/vabeauty/products/5942317301?'
+options = webdriver.ChromeOptions()
+options.add_argument('--headless')
+chrome_driver_path = '/Users/UiinKim/.ipython/chromedriver'
+driver = webdriver.Chrome(options=options)
+driver.get(url)
+time.sleep(3)
+
+page=requests.get(url)
+while True:
+    last_height = driver.execute_script("return document.body.scrollHeight")
+    driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
+    time.sleep(2)
+    new_height = driver.execute_script("return document.body.scrollHeight")
+    if new_height == last_height:
+        break
